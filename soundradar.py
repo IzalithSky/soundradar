@@ -9,7 +9,7 @@ FORMAT = pyaudio.paFloat32
 CHANNELS = 2
 RATE = 48000
 CHUNK = 4800 * 2
-DRAW_INTERVAL = 500
+DRAW_INTERVAL = 120
 RECORD_SECONDS = 5
 audio = pyaudio.PyAudio()
 
@@ -37,22 +37,23 @@ def draw_init():
 
 
 def on_draw(ignored):
+    plt.cla()
     # xdb = librosa.amplitude_to_db(abs(librosa.stft(drawBuff)))
     xdb = librosa.amplitude_to_db(abs(librosa.stft(drawBuff, n_fft=512, hop_length=512)))
     # print(Xdb.shape)
     ld.specshow(xdb, sr=RATE, x_axis='time', y_axis='hz')
 
 
-print("----------------------record device list---------------------")
-info = audio.get_host_api_info_by_index(0)
-numdev = info.get('deviceCount')
-for i in range(0, numdev):
-    if (audio.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
-        print("Input Device id ", i, " - ", audio.get_device_info_by_host_api_device_index(0, i).get('name'))
-print("-------------------------------------------------------------")
-
-index = int(input())
-print("recording via index " + str(index))
+# print("----------------------record device list---------------------")
+# info = audio.get_host_api_info_by_index(0)
+# numdev = info.get('deviceCount')
+# for i in range(0, numdev):
+#     if (audio.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
+#         print("Input Device id ", i, " - ", audio.get_device_info_by_host_api_device_index(0, i).get('name'))
+# print("-------------------------------------------------------------")
+#
+# index = int(input())
+# print("recording via index " + str(index))
 
 stream = audio.open(
     format=FORMAT,
